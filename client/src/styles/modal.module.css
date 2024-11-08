@@ -1,0 +1,103 @@
+.modal__container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(51, 51, 51, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+}
+.modal__form_wrapper {
+  padding: 1.5rem 2rem;
+  border-radius: 0.5rem;
+  background: #fff;
+  width: 100%;
+  height: 80%;
+}
+
+.close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.modal__title {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.flie__list p {
+  padding: 0.5rem 0.65rem;
+  border-radius: 0.4rem;
+  background: #f2f4f7;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.add__btn {
+  display: block;
+  width: max-content;
+  margin-left: auto;
+  margin-top: 1rem;
+  background: #022635;
+  color: #fff;
+  border-radius: 0.4rem;
+}
+.btn__wrap {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+}
+.upload__btn {
+  background: #12cc8e;
+  margin-left: 0;
+}
+.cancel__btn {
+  background: #1288cc;
+  margin-left: 0;
+}
+.upload__btn:disabled,
+.cancel__btn:disabled {
+  cursor: not-allowed;
+  background: gray;
+}
+
+.input__file {
+  display: none;
+}
+.upload__label {
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 10px 15px;
+  border: 1px solid #a3a3a3;
+  color: #333;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.upload__label svg {
+  margin-right: 8px;
+}
+.selectedFile {
+  margin-top: 0.5rem;
+  font-size: 16px;
+}
+
+@media (min-width: 660px) {
+  .modal__form_wrapper {
+    max-width: 550px;
+    height: max-content;
+  }
+  .close {
+    top: 1.5rem;
+    right: 1.5rem;
+  }
+}
