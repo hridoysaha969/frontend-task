@@ -92,7 +92,12 @@ const Data = ({ item }) => {
       </div>
 
       {open && (
-        <Modal setOpen={setOpen} dataFile={dataFile} dataLoading={loading} />
+        <Modal
+          setOpen={setOpen}
+          dataFile={dataFile}
+          dataLoading={loading}
+          setDataFile={setDataFile}
+        />
       )}
     </section>
   );

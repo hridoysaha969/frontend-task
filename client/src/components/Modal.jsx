@@ -4,7 +4,7 @@ import styles from "../styles/modal.module.css";
 import { FaTimes } from "react-icons/fa";
 import axios from "axios";
 
-const Modal = ({ setOpen, dataFile, dataLoading }) => {
+const Modal = ({ setOpen, dataFile, dataLoading, setDataFile }) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -36,6 +36,12 @@ const Modal = ({ setOpen, dataFile, dataLoading }) => {
 
       alert("File uploaded");
       console.log(response.data);
+
+      const resData = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/files`
+      );
+      setDataFile(resData.data.result);
+
       setLoading(false);
       setOpen(false);
     } catch (error) {
