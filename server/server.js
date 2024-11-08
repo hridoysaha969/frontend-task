@@ -7,8 +7,6 @@ import File from "./models/FileModel.js";
 import connectDB from "./config/mongodb.js";
 import multer from "multer";
 
-const upload = multer({ dest: "uploads/" });
-
 // APP CONFIG
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -17,6 +15,8 @@ connectDB();
 // MIDDLEWERE
 app.use(express.json());
 app.use(cors());
+
+const upload = multer({ dest: "uploads/" });
 
 // ROUTES
 app.get("/", (req, res) => {
