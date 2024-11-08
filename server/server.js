@@ -12,11 +12,12 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 connectDB();
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
 // MIDDLEWERE
 app.use(express.json());
 app.use(cors());
-
-const upload = multer({ dest: "uploads/" });
 
 // ROUTES
 app.get("/", (req, res) => {
@@ -45,25 +46,36 @@ app.post("/upload", upload.single("file"), async (req, res) => {
       .slice(0, -1)
       .join(".")}.${fileExt}`;
 
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      resource_type: "auto",
-      public_id: fileName,
-      use_filename: true,
-      unique_filename: false,
-    });
+    const result = await cloudinary.uploader
+      .upload_stream(
+        {
+          resource_type: "auto",
+          public_id: fileName,
+          // use_filename: true,
+          // unique_filename: false,
+        },
+        async (error, result) => {
+          if (error)
+            return res.json({
+              success: false,
+              message: "Upload failed to cloudinary",
+            });
 
-    const newFile = new File({
-      fileName: fileName,
-      url: result.secure_url,
-    });
+          const newFile = new File({
+            fileName: fileName,
+            url: result.secure_url,
+          });
 
-    await newFile.save();
+          await newFile.save();
 
-    res.json({
-      success: true,
-      message: "File uploaded",
-      url: result.secure_url,
-    });
+          res.json({
+            success: true,
+            message: "File uploaded",
+            url: result.secure_url,
+          });
+        }
+      )
+      .end(req.file.buffer);
 
     // res.json({ success: true, fileName });
   } catch (error) {

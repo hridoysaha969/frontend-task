@@ -5,17 +5,43 @@ import { FaClipboardList } from "react-icons/fa";
 import { FaRegComments } from "react-icons/fa6";
 import { GrAttachment } from "react-icons/gr";
 import { FaRegCalendarDays } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "./Modal";
+import axios from "axios";
 
 const Data = ({ item }) => {
   const [open, setOpen] = useState(false);
+  const [dataFile, setDataFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/files`
+        );
+        setDataFile(response.data.result);
+        // console.log(response);
+
+        setLoading(false);
+      } catch (error) {
+        console.log(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const truncateText = (text, maxLength) => {
     if (text.length > maxLength) {
       return text.substring(0, maxLength) + "...";
     }
     return text;
   };
+
   return (
     <section className={styles.data}>
       <div className={styles.data_header}>
@@ -56,7 +82,7 @@ const Data = ({ item }) => {
             <span onClick={() => setOpen(true)}>
               <GrAttachment />
             </span>
-            25
+            {dataFile && dataFile.length}
           </span>
           <span>
             <FaRegCalendarDays />
@@ -65,7 +91,9 @@ const Data = ({ item }) => {
         </div>
       </div>
 
-      {open && <Modal setOpen={setOpen} />}
+      {open && (
+        <Modal setOpen={setOpen} dataFile={dataFile} dataLoading={loading} />
+      )}
     </section>
   );
 };

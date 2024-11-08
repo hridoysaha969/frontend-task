@@ -1,37 +1,13 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "../styles/modal.module.css";
 import { FaTimes } from "react-icons/fa";
 import axios from "axios";
 
-const Modal = ({ setOpen }) => {
+const Modal = ({ setOpen, dataFile, dataLoading }) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [file, setFile] = useState(null);
-  const [dataFile, setDataFile] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/files`
-        );
-        setDataFile(response.data.result);
-        console.log(response);
-
-        setLoading(false);
-      } catch (error) {
-        console.log(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  console.log(dataFile);
 
   const handleChange = (event) => {
     const selectFile = event.target.files[0];
@@ -121,6 +97,7 @@ const Modal = ({ setOpen }) => {
           <button
             className={styles.add__btn}
             onClick={() => setShowAddForm(true)}
+            disabled={dataLoading}
           >
             Add File
           </button>
