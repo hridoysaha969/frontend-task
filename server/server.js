@@ -72,8 +72,6 @@ app.post("/upload", upload.single("file"), async (req, res) => {
   }
 });
 
-// app.listen(PORT, () => {
-//   console.log("Server runnung on port : " + PORT);
-// });
-
-export default app;
+app.listen(PORT, () => {
+  console.log("Server runnung on port : " + PORT);
+});
